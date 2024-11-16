@@ -75,13 +75,46 @@ export function useLocationAndLanguage() {
     switch (countryCode.toLowerCase()) {
       case 'es':
       case 'mx':
+      case 'ar':
+      case 'bo':
+      case 'cl':
+      case 'co':
+      case 'cr':
+      case 'do':
+      case 'ec':
+      case 'gt':
+      case 'hn':
+      case 'ni':
+      case 'pa':
+      case 'pe':
+      case 'py':
+      case 'sv':
+      case 'uy':
+      case 've':
         setLanguageKey('es');
         break;
       case 'fr':
+      case 'be':
+      case 'ca':
+      case 'ch':
+      case 'lu':
         setLanguageKey('fr');
         break;
       case 'it':
+      case 'ch':
+      case 'sm':
+      case 'va':
         setLanguageKey('it');
+        break;
+      case 'de':
+      case 'at':
+      case 'ch':
+      case 'li':
+        setLanguageKey('de');
+        break;
+      case 'nl':
+      case 'be':
+        setLanguageKey('nl');
         break;
       default:
         setLanguageKey('en');

@@ -14,7 +14,7 @@ const languages: { [key: string]: LanguageData } = {
   en: {
     title: "Fleur's Codebase",
     subtitle: "Enter Access Code",
-    description: "Please enter your unique access code",
+    description: "Please, enter the Access Code",
     button: "Submit Code",
     testLuck: "Test your luck!",
     locationUnavailable: "Location unavailable",
@@ -25,7 +25,7 @@ const languages: { [key: string]: LanguageData } = {
   es: {
     title: "Base de Códigos de Fleur",
     subtitle: "Ingrese el Código de Acceso",
-    description: "Por favor, ingrese su código de acceso único",
+    description: "Por favor, ingrese el Código de Acceso",
     button: "Enviar Código",
     testLuck: "¡Prueba tu suerte!",
     locationUnavailable: "Ubicación no disponible",
@@ -36,13 +36,46 @@ const languages: { [key: string]: LanguageData } = {
   fr: {
     title: "Base de Code de Fleur",
     subtitle: "Entrez le Code d'Accès",
-    description: "Veuillez entrer votre code d'accès unique",
+    description: "Veuillez entrer votre Code d'Accès",
     button: "Soumettre le Code",
     testLuck: "Tentez votre chance !",
     locationUnavailable: "Localisation indisponible",
     loading: "Chargement...",
     invalidCode: "Code invalide. Veuillez réessayer.",
     languageName: "Français"
+  },
+  it: {
+    title: "Codebase di Fleur",
+    subtitle: "Inserisci il Codice di Accesso",
+    description: "Per favore, inserisci il Codice di Accesso",
+    button: "Invia il Codice",
+    testLuck: "Prova la tua fortuna!",
+    locationUnavailable: "Posizione non disponibile",
+    loading: "Caricamento...",
+    invalidCode: "Codice non valido. Per favore, riprova.",
+    languageName: "Italiano"
+  },
+  de: {
+    title: "Codebasis von Fleur",
+    subtitle: "Geben Sie den Zugangscode ein",
+    description: "Bitte geben Sie den Zugangscode ein",
+    button: "Code senden",
+    testLuck: "Versuchen Sie Ihr Glück!",
+    locationUnavailable: "Standort nicht verfügbar",
+    loading: "Laden...",
+    invalidCode: "Ungültiger Code. Bitte versuchen Sie es erneut.",
+    languageName: "Deutsch"
+  },
+  nl: {
+    title: "Codebasis van Fleur",
+    subtitle: "Voer de toegangscode in",
+    description: "Voer de toegangscode in aub.",
+    button: "Code verzenden",
+    testLuck: "Probeer je geluk!",
+    locationUnavailable: "Locatie niet beschikbaar",
+    loading: "Laden...",
+    invalidCode: "Ongeldige code. Probeer het opnieuw.",
+    languageName: "Nederlands"
   }
 };
 
