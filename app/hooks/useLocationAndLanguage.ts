@@ -1,0 +1,97 @@
+import { useState, useEffect } from 'react';
+import languages from '../languages';
+
+interface LocationData {
+  city: string;
+  country_name: string;
+  country_code: string;
+}
+
+export function useLocationAndLanguage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [location, setLocation] = useState<string | null>(null);
+  const [currentDate, setCurrentDate] = useState<string>('');
+  const [languageKey, setLanguageKey] = useState<string>('en');
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const savedLanguage = localStorage.getItem('preferredLanguage');
+      if (savedLanguage && languages[savedLanguage]) {
+        setLanguageKey(savedLanguage);
+        setIsLoading(false);
+        return;
+      }
+
+      const savedLocation = localStorage.getItem('location');
+      const savedDate = localStorage.getItem('locationDate');
+      const now = new Date();
+
+      if (savedLocation && savedDate) {
+        const savedDateTime = new Date(savedDate);
+        const timeDifference = now.getTime() - savedDateTime.getTime();
+        const oneDay = 24 * 60 * 60 * 1000;
+
+        if (timeDifference < oneDay) {
+          const locationData: LocationData = JSON.parse(savedLocation);
+          setLocation(`${locationData.city}, ${locationData.country_name}`);
+          const dateFormat = locationData.country_code === 'US' ? 'en-US' : 'en-GB';
+          setCurrentDate(now.toLocaleDateString(dateFormat, { year: 'numeric', month: 'numeric', day: 'numeric' }));
+          setLanguageBasedOnCountry(locationData.country_code);
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        if (!res.ok) throw new Error(`Failed to fetch location, status: ${res.status}`);
+        const data: LocationData = await res.json();
+        
+        if (data.city && data.country_name) {
+          setLocation(`${data.city}, ${data.country_name}`);
+          localStorage.setItem('location', JSON.stringify(data));
+          localStorage.setItem('locationDate', now.toISOString());
+
+          const dateFormat = data.country_code === 'US' ? 'en-US' : 'en-GB';
+          setCurrentDate(now.toLocaleDateString(dateFormat, { year: 'numeric', month: 'numeric', day: 'numeric' }));
+          
+          setLanguageBasedOnCountry(data.country_code);
+        } else {
+          throw new Error('Incomplete location data');
+        }
+      } catch (error) {
+        console.error('Error fetching location:', error);
+        setLocation(languages[languageKey].locationUnavailable);
+        setCurrentDate(now.toLocaleDateString('en-GB', { year: 'numeric', month: 'numeric', day: 'numeric' }));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLocation();
+  }, [languageKey]);
+
+  const setLanguageBasedOnCountry = (countryCode: string) => {
+    switch (countryCode.toLowerCase()) {
+      case 'es':
+      case 'mx':
+        setLanguageKey('es');
+        break;
+      case 'fr':
+        setLanguageKey('fr');
+        break;
+      case 'it':
+        setLanguageKey('it');
+        break;
+      default:
+        setLanguageKey('en');
+    }
+  }
+
+  const handleLanguageChange = (lang: string) => {
+    setLanguageKey(lang);
+    localStorage.setItem('preferredLanguage', lang);
+  }
+
+  return { isLoading, location, currentDate, languageKey, handleLanguageChange };
+}
