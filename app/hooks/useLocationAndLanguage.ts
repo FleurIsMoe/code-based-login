@@ -12,6 +12,12 @@ export function useLocationAndLanguage() {
   const [location, setLocation] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>('');
   const [languageKey, setLanguageKey] = useState<string>('en');
+  const [greeting, setGreeting] = useState<string>('');
+
+  const handleLanguageChange = (lang: string) => {
+    setLanguageKey(lang);
+    localStorage.setItem('preferredLanguage', lang);
+  };
 
   useEffect(() => {
     const fetchLocation = async () => {
@@ -33,7 +39,9 @@ export function useLocationAndLanguage() {
 
         if (timeDifference < oneDay) {
           const locationData: LocationData = JSON.parse(savedLocation);
-          setLocation(`${locationData.city}, ${locationData.country_name}`);
+          const locationString = `${locationData.city}, ${locationData.country_name}`;
+          setLocation(locationString);
+          setGreeting(languages[languageKey].greeting.replace('{location}', locationString));
           const dateFormat = locationData.country_code === 'US' ? 'en-US' : 'en-GB';
           setCurrentDate(now.toLocaleDateString(dateFormat, { year: 'numeric', month: 'numeric', day: 'numeric' }));
           setLanguageBasedOnCountry(locationData.country_code);
@@ -48,7 +56,9 @@ export function useLocationAndLanguage() {
         const data: LocationData = await res.json();
         
         if (data.city && data.country_name) {
-          setLocation(`${data.city}, ${data.country_name}`);
+          const locationString = `${data.city}, ${data.country_name}`;
+          setLocation(locationString);
+          setGreeting(languages[languageKey].greeting.replace('{location}', locationString));
           localStorage.setItem('location', JSON.stringify(data));
           localStorage.setItem('locationDate', now.toISOString());
 
@@ -62,6 +72,7 @@ export function useLocationAndLanguage() {
       } catch (error) {
         console.error('Error fetching location:', error);
         setLocation(languages[languageKey].locationUnavailable);
+        setGreeting(languages[languageKey].greeting.replace('{location}', languages[languageKey].locationUnavailable));
         setCurrentDate(now.toLocaleDateString('en-GB', { year: 'numeric', month: 'numeric', day: 'numeric' }));
       } finally {
         setIsLoading(false);
@@ -116,15 +127,20 @@ export function useLocationAndLanguage() {
       case 'be':
         setLanguageKey('nl');
         break;
+      case 'pt':
+      case 'ao':
+      case 'br':
+      case 'cv':
+      case 'gw':
+      case 'gy':
+      case 'mz':
+      case 'st':
+      case 'tl':
+        setLanguageKey('pt');
       default:
         setLanguageKey('en');
     }
-  }
+  };
 
-  const handleLanguageChange = (lang: string) => {
-    setLanguageKey(lang);
-    localStorage.setItem('preferredLanguage', lang);
-  }
-
-  return { isLoading, location, currentDate, languageKey, handleLanguageChange };
+  return { isLoading, location, currentDate, languageKey, greeting, handleLanguageChange };
 }

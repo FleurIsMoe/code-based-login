@@ -8,6 +8,7 @@ export interface LanguageData {
   loading: string;
   invalidCode: string;
   languageName: string;
+  greeting: string;
 }
 
 const languages: { [key: string]: LanguageData } = {
@@ -20,7 +21,8 @@ const languages: { [key: string]: LanguageData } = {
     locationUnavailable: "Location unavailable",
     loading: "Loading...",
     invalidCode: "Invalid code. Please try again.",
-    languageName: "English"
+    languageName: "English",
+    greeting: "Hello, kind stranger from {location}",
   },
   es: {
     title: "Base de Códigos de Fleur",
@@ -31,7 +33,8 @@ const languages: { [key: string]: LanguageData } = {
     locationUnavailable: "Ubicación no disponible",
     loading: "Cargando...",
     invalidCode: "Código inválido. Por favor, intente de nuevo.",
-    languageName: "Español"
+    languageName: "Español",
+    greeting: "Hola, amable desconocido de {location}",
   },
   fr: {
     title: "Base de Code de Fleur",
@@ -42,7 +45,8 @@ const languages: { [key: string]: LanguageData } = {
     locationUnavailable: "Localisation indisponible",
     loading: "Chargement...",
     invalidCode: "Code invalide. Veuillez réessayer.",
-    languageName: "Français"
+    languageName: "Français",
+    greeting: "Bonjour, gentil étranger de {location}",
   },
   it: {
     title: "Codebase di Fleur",
@@ -53,19 +57,21 @@ const languages: { [key: string]: LanguageData } = {
     locationUnavailable: "Posizione non disponibile",
     loading: "Caricamento...",
     invalidCode: "Codice non valido. Per favore, riprova.",
-    languageName: "Italiano"
+    languageName: "Italiano",
+    greeting: "Ciao, gentile sconosciuto di {location}",
   },
   de: {
     title: "Codebasis von Fleur",
-    subtitle: "Geben Sie den Zugangscode ein",
-    description: "Bitte geben Sie den Zugangscode ein",
+    subtitle: "Geben Sie Ihren persönlichen Zugangscode ein",
+    description: "Bitte geben Sie Ihren persönlichen Zugangscode ein",
     button: "Code senden",
     testLuck: "Versuchen Sie Ihr Glück!",
     locationUnavailable: "Standort nicht verfügbar",
     loading: "Laden...",
     invalidCode: "Ungültiger Code. Bitte versuchen Sie es erneut.",
-    languageName: "Deutsch"
-  },
+    languageName: "Deutsch",
+    greeting: "Hallo, freundlicher Fremder aus {location}",
+},
   nl: {
     title: "Codebasis van Fleur",
     subtitle: "Voer de toegangscode in",
@@ -75,7 +81,20 @@ const languages: { [key: string]: LanguageData } = {
     locationUnavailable: "Locatie niet beschikbaar",
     loading: "Laden...",
     invalidCode: "Ongeldige code. Probeer het opnieuw.",
-    languageName: "Nederlands"
+    languageName: "Nederlands",
+    greeting: "Hallo, vriendelijke vreemdeling uit {location}",
+  },
+  pt: {
+    title: "Base de Código de Fleur",
+    subtitle: "Digite o Código de Acesso",
+    description: "Por favor, digite o Código de Acesso",
+    button: "Enviar Código",
+    testLuck: "Tente sua sorte!",
+    locationUnavailable: "Localização indisponível",
+    loading: "Carregando...",
+    invalidCode: "Código inválido. Por favor, tente novamente.",
+    languageName: "Português",
+    greeting: "Olá, amável desconhecido de {location}",
   }
 };
 
