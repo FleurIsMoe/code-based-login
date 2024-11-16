@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const result = await isValidCode(code)
     
     return NextResponse.json(result)
-  } catch (error) {
+  } catch {
     return NextResponse.json({ valid: false }, { status: 500 })
   }
 }

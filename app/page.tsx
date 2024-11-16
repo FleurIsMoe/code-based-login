@@ -45,7 +45,7 @@ export default function CodeLogin() {
       } else {
         setError(languages[languageKey].invalidCode)
       }
-    } catch (err) {
+    } catch {
       setError(languages[languageKey].invalidCode)
     } finally {
       setIsSubmitting(false)
