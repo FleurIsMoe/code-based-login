@@ -14,23 +14,41 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Globe } from 'lucide-react'
 import languages from './languages'
-import { codeDatabase, RICK_ROLL_URL } from './constants'
+import { RICK_ROLL_URL } from './constants'
 import { useLocationAndLanguage } from './hooks/useLocationAndLanguage'
 
 export default function CodeLogin() {
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
   const { isLoading, location, currentDate, languageKey, handleLanguageChange } = useLocationAndLanguage()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setIsSubmitting(true)
 
-    if (code in codeDatabase) {
-      router.push(codeDatabase[code])
-    } else {
+    try {
+      const response = await fetch('/api/validate-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      })
+
+      const data = await response.json()
+
+      if (data.valid && data.url) {
+        router.push(data.url)
+      } else {
+        setError(languages[languageKey].invalidCode)
+      }
+    } catch (err) {
       setError(languages[languageKey].invalidCode)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -95,8 +113,12 @@ export default function CodeLogin() {
               className="bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-400"
             />
 
-            <Button type="submit" className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white">
-              {languages[languageKey].button}
+            <Button 
+              type="submit" 
+              className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? languages[languageKey].loading : languages[languageKey].button}
             </Button>
 
             {error && (
